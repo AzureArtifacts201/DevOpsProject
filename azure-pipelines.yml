@@ -23,6 +23,17 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 - task: DotNetCoreCLI@2
   inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'webapp-artifact'
+    
+- task: DotNetCoreCLI@2
+  inputs:
     command: restore
     projects: '**/*.csproj'
     
